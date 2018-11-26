@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('../models/user');
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   reconnectTries: Number.MAX_VALUE,

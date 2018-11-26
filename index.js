@@ -6,7 +6,7 @@ const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   reconnectTries: Number.MAX_VALUE,
