@@ -1,4 +1,5 @@
 const Booking = require('../models/booking');
+const dateFns = require('date-fns');
 
 exports.getAll = async (req, res, next) => {
   const bookings = await Booking.find();
@@ -8,7 +9,7 @@ exports.getAll = async (req, res, next) => {
 exports.create = async (req, res, next) => {
   const booking = new Booking(req.body);
   await booking.save();
-  res.json(201, booking);
+  res.status(201).json(booking);
 }
 
 exports.update = async (req, res, next) => {
@@ -28,13 +29,12 @@ exports.delete = async (req, res, next) => {
   res.status(200).send();
 }
 
-exports.getDates = async (req, res, next) => {
+exports.getBookedDates = async (req, res, next) => {
   const bookings = await Booking.where("confirmed").ne(null);
-  const bookingDates = bookings.map(booking => ({
-    id: booking._id,
-    accommodation: booking.accommodation,
-    arrivalDate: booking.arrivalDate,
-    departureDate: booking.departureDate,
-  }));
-  res.send(bookingDates);
+  const timestamps = new Set();
+  bookings.forEach(booking => {
+    dateFns.eachDay(booking.arrivalDate, booking.departureDate)
+      .forEach(day => timestamps.add(day.valueOf()));
+  });
+  res.send(Array.from(timestamps, timestamp => dateFns.parse(timestamp)));
 }

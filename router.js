@@ -11,9 +11,9 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 module.exports = app => {
   app.post('/signin', requireSignin, authentication.signin);
   app.get('/bookings', requireAuth, catchErrors(bookings.getAll));
-  app.post('/bookings', requireAuth, catchErrors(bookings.create));
   app.put('/bookings/:id', requireAuth, catchErrors(bookings.update));
   app.delete('/bookings/:id', requireAuth, catchErrors(bookings.delete));
 
-  app.get('/booking-dates', catchErrors(bookings.getDates));
+  app.post('/bookings', catchErrors(bookings.create));
+  app.get('/booked-dates', catchErrors(bookings.getBookedDates));
 }
