@@ -4,13 +4,13 @@ const dateFns = require('date-fns');
 exports.getAll = async (req, res, next) => {
   const bookings = await Booking.find();
   res.json(bookings);
-}
+};
 
 exports.create = async (req, res, next) => {
   const booking = new Booking(req.body);
   await booking.save();
   res.status(201).json(booking);
-}
+};
 
 exports.update = async (req, res, next) => {
   const booking = await Booking.findById(req.params.id);
@@ -22,12 +22,12 @@ exports.update = async (req, res, next) => {
   booking.set(req.body);
   await booking.save();
   res.json(booking);
-}
+};
 
 exports.delete = async (req, res, next) => {
   await Booking.findByIdAndDelete(req.params.id);
   res.status(200).send();
-}
+};
 
 exports.getBookedDates = async (req, res, next) => {
   const bookings = await Booking.where("confirmed").ne(null);
@@ -37,4 +37,4 @@ exports.getBookedDates = async (req, res, next) => {
       .forEach(day => timestamps.add(day.valueOf()));
   });
   res.send(Array.from(timestamps, timestamp => dateFns.parse(timestamp)));
-}
+};

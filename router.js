@@ -16,4 +16,4 @@ module.exports = app => {
 
   app.post('/bookings', catchErrors(bookings.create));
   app.get('/booked-dates', catchErrors(bookings.getBookedDates));
-}
+};

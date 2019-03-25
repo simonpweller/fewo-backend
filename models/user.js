@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 // Define our model
@@ -15,8 +15,7 @@ const userSchema = new Schema({
 userSchema.pre('save', async function (next) {
   try {
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(this.password, salt);
-    this.password = hash;
+    this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (err) {
     return next(err);
@@ -25,7 +24,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
-}
+};
 
 // Create the model class
 const ModelClass = mongoose.model('user', userSchema);
