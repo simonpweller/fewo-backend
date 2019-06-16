@@ -15,5 +15,5 @@ module.exports = app => {
   app.delete('/bookings/:id', requireAuth, catchErrors(bookings.delete));
 
   app.post('/bookings', catchErrors(bookings.create));
-  app.get('/booked-dates', catchErrors(bookings.getBookedDates));
+  app.get('/booked-dates/:accommodation', catchErrors(bookings.getBookedDates));
 };

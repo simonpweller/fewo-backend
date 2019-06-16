@@ -30,7 +30,9 @@ exports.delete = async (req, res, next) => {
 };
 
 exports.getBookedDates = async (req, res, next) => {
-  const bookings = await Booking.where("confirmed").ne(null);
+  const accommodation = req.params.accommodation;
+  const bookings = await Booking.find({accommodation});
+
   const timestamps = new Set();
   bookings.forEach(booking => {
     dateFns.eachDay(booking.arrivalDate, booking.departureDate)
